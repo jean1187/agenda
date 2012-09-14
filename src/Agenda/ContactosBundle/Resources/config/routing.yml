@@ -1,0 +1,4 @@
+ContactosBundle_contacto:
+    resource: "@ContactosBundle/Resources/config/routing/agenda.yml"
+    prefix:   /contacto
+

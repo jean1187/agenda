@@ -1,0 +1,34 @@
+security:
+    firewalls:
+       dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+       frontend:
+            pattern:        ^/
+            provider:       usuarios
+            anonymous:      ~
+            form_login:
+                login_path: usuario_login
+                check_path: usuario_login_check
+                always_use_default_target_path: true #si esta opcion no se coloca true se usa use_referer, que es la referencia anterior
+            logout:
+                path:       usuario_logout
+            remember_me:
+                key:        Ag3nd@*2021.
+                lifetime:   604800  # 604.800 = 3.600 * 24 * 7 = 1 semana
+
+                
+                
+    access_control:
+        - { path: /_wdt/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /_profiler/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ , roles: ROLE_USUARIO }
+        
+
+    encoders:
+        Agenda\UsuariosBundle\Entity\Usuario:        { algorithm: sha512, iterations: 10 }
+        
+    providers:
+        usuarios:
+            entity: { class: Agenda\UsuariosBundle\Entity\Usuario, property: user }

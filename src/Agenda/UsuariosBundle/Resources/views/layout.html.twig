@@ -1,0 +1,55 @@
+{# empty Twig template #}
+{% extends '::base.html.twig' %}
+{% block title 'Contactos' %}
+{% block stylesheets %}
+    {{parent()}}
+        {#{% stylesheets filter='cssrewrite, yui_css' output='css/compresed/compressed.css'
+                'css/main.css'
+                'css/menu/menu.css'
+                'css/jquery_ui/jquery-ui.css'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+        {% endstylesheets %}#}
+{% endblock %}
+
+
+{% block body %}
+    {% block header%}
+            <header>
+                <center> <h1> ### HEADER ####</h1> </center>
+                {% block menu%}
+                    <nav>
+                        <ul>
+                            <li><a href="#">{{'### MENU ####'}}</a></li>
+                        </ul>
+                    </nav>
+                {% endblock menu %}
+            </header>
+    {% endblock header%}
+
+    {% block anuncio %}{% endblock %}
+
+    <article>
+        {% block article %}{% endblock %}
+    </article>    
+
+    {% block footer %}
+    <footer>
+            <a href="">&copy; {{ 'now' | date('Y') }} - Agenda System</a>
+            <a href=""> Privacidad</a>
+            <a href=""> Condiciones de uso</a>
+    </footer>
+    {% endblock footer%}
+{% endblock body %}
+
+{% block javascripts %}
+     {{parent()}}
+        {# {% javascripts filter='yui_js' output='js/compresed/compressed.js'
+                'js/jquery.js'
+                'js/menu/menu.js'
+                'js/global.twig.js'
+                'js/jquery_ui/jquery-ui.js'
+        %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}#}
+{% endblock %}

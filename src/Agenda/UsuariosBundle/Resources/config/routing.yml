@@ -1,0 +1,17 @@
+Usuarios_homepage:
+    pattern:  /index/
+    defaults: { _controller: UsuariosBundle:Default:index }
+
+# Ruta para la acción de login de de los usuarios del frontend
+usuario_login:
+    pattern:   /login
+    defaults:  { _controller: UsuariosBundle:Default:login }
+
+# Ruta para la acción que comprueba el login del frontend
+usuario_login_check:
+    pattern:   /login_check
+
+# Ruta para la acción de logout de los usuarios del frontend extranet
+usuario_logout:
+    pattern:   /logout
+    

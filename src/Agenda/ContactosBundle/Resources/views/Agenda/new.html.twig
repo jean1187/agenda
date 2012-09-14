@@ -1,0 +1,68 @@
+<h1>Agenda creation</h1>
+<script type="text/javascript" src="{{ asset('bundles/contactos/js/jquery.js')  }}"></script>
+
+<form action="{{ path('contacto_create') }}" method="post" {{ form_enctype(form) }}>
+
+    	{{ form_errors(form._token) }}
+{{ form_widget(form._token) }}
+
+{{ form_row(form.nombres)}}    
+{{ form_row(form.apellidos)}}    
+{{ form_row(form.email)}}    
+
+{# form_widget(form) #}
+        <h3>Numeros</h3>
+        <ul class="numeros" data-prototype="{{ form_widget(form.numeros.get('prototype').numero) | e }}">
+            
+        </ul>
+        
+    <p>
+        <button type="submit">Create</button>
+    </p>
+
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('contacto') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+<script type="text/javascript">
+    // Obtiene el div que contiene la colección de etiquetas
+var collectionHolder = $('ul.numeros');
+
+// configura una enlace "Agregar una etiqueta"
+var $addTagLink = $('<a href="#" class="add_tag_link">Add a numero</a>');
+var $newLinkLi = $('<li></li>').append($addTagLink);
+
+jQuery(document).ready(function() {
+    // Añade el ancla "Agregar una etiqueta" y las etiquetas li y ul
+    collectionHolder.append($newLinkLi);
+addTagForm(collectionHolder, $newLinkLi)
+    $addTagLink.on('click', function(e) {
+        // evita crear el enlace con una "#" en la URL
+        e.preventDefault();
+
+        // añade una nueva etiqueta form (ve el siguiente bloque de código)
+        addTagForm(collectionHolder, $newLinkLi);
+    });
+    
+    
+    function addTagForm(collectionHolder, $newLinkLi) {
+    // Obtiene el data-prototype que explicamos anteriormente
+    var prototype = collectionHolder.attr('data-prototype');
+
+    // Sustituye "$$name$$" en el HTML del prototipo
+    // en lugar de ser un número basado en la longitud de la colección actual.
+    var newForm = prototype.replace(/\$\$name\$\$/g, collectionHolder.children().length);
+
+    // Muestra el formulario en la página en un elemento li,
+   // \\ antes del enlace "Agregar una etiqueta"
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+}
+    
+});
+</script>

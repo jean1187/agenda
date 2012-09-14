@@ -1,0 +1,39 @@
+{% extends 'UsuariosBundle::layout.html.twig' %}
+{% block stylesheets %}
+{#'@UsuariosBundle/Resources/public/css/login/login.css'#}
+    {% stylesheets '@UsuariosBundle/Resources/public/css/login/tripoli.css'
+                   'bundles/usuarios/css/login/login.css'
+                output='css/login.min.css'  filter='cssrewrite, yui_css' %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block title('Login')%}
+{#Eliminando el contenido del block header y footer#}
+
+{% block body %}
+        <section id="bd-login-form" style="margin-top: -175px; zoom: 1; ">
+        <form id="login-form" class="login-form" action="{{ path('usuario_login_check') }}" method="post"  autocomplete="off">
+                <ul>
+                    <li>
+                        <label for="username">{{ "Usuario" | trans }}</label>
+                        <input type="text" id="signin_username" name="_username" value="{{ last_username }}" />
+                    </li>
+                    <li>
+                        <label for="password">{{ "Contraseña" | trans }}</label>
+                        <input type="password" id="signin_password" name="_password"  />
+                    </li>
+                    <li id="remember-me-option" class="row">
+                            <input type="checkbox" id="remember_me" name="_remember_me"  />
+                            <span><label for="signin_remember">{{ "Recuerdame" | trans }}</label></span>
+                    </li>
+                    <li class="buttons">
+                        <input class="button" type="submit" name="login" id='signin' value="{{ "Entrar" | trans }}" />
+                    </li>
+                        {% if error %}
+                            <div class="error"><br>{{ error.message}}</div>
+                        {% endif %}
+                </ul>
+        </form>
+      </section>
+{% endblock %}
