@@ -3,6 +3,11 @@
 {% block title 'Contactos' %}
 {% block stylesheets %}
     {{parent()}}
+        {% stylesheets filter='cssrewrite, yui_css' output='css/of.css'
+                'bundles/epsjqgrid/css/ui.jqgrid.css'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+        {% endstylesheets %}
         {#{% stylesheets filter='cssrewrite, yui_css' output='css/compresed/compressed.css'
                 'css/main.css'
                 'css/menu/menu.css'
@@ -44,12 +49,14 @@
 
 {% block javascripts %}
      {{parent()}}
-        {# {% javascripts filter='yui_js' output='js/compresed/compressed.js'
-                'js/jquery.js'
-                'js/menu/menu.js'
-                'js/global.twig.js'
-                'js/jquery_ui/jquery-ui.js'
+        {#
+ bundles/epsjqgrid/js/i18n/grid.locale-fr.js
+ bundles/epsjqgrid/js/jquery.jqGrid.min.js
+#}
+        {% javascripts filter='yui_js' output='js/EPS.js'
+                'bundles/epsjqgrid/js/i18n/grid.locale-fr.js'
+                'bundles/epsjqgrid/js/jquery.jqGrid.min.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}#}
+        {% endjavascripts %}
 {% endblock %}

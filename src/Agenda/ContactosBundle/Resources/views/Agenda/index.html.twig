@@ -1,37 +1,38 @@
+{% extends 'UsuariosBundle::layout.html.twig' %}
+{% block title '...Lista de Contactos...' %}
+{% block body %}
 <h1>Agenda list</h1>
-
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('contacto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.nombres }}</td>
-            <td>{{ entity.apellidos }}</td>
-            <td>{{ entity.email }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('contacto_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('contacto_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('contacto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombres }}</td>
+                <td>{{ entity.apellidos }}</td>
+                <td>{{ entity.email }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('contacto_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('contacto_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 <ul>
     <li>
         <a href="{{ path('contacto_new') }}">
@@ -39,3 +40,5 @@
         </a>
     </li>
 </ul>
+
+{% endblock %}

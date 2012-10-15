@@ -24,7 +24,7 @@ class Numeros
     /**
      * @var string $numero
      *
-     * @ORM\Column(name="numero", type="string", length=11, nullable=false)
+     * @ORM\Column(name="numero", type="string", length=11)
      */
     private $numero;
 
@@ -69,6 +69,7 @@ class Numeros
     {
         return $this->numero;
     }
+    
 
     /**
      * Set agenda

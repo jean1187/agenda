@@ -129,21 +129,43 @@ class AgendaController extends Controller
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
         $entity = $em->getRepository('ContactosBundle:Agenda')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Agenda entity.');
         }
-
+// Se crea una matriz de los objetos numeros actuales en la base de datos
+    foreach ($entity->getNumeros() as $numero) 
+        $originalNumeros[] = $numero;
+         
         $editForm   = $this->createForm(new AgendaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-
         $request = $this->getRequest();
-
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
+            // filtra $originalNumeros para que contenga los numeros que no estan presente
+            foreach ($editForm->getData()->getNumeros() as $numero) {
+                if($numero->getId()===NULL)
+                    $numerosNuevos[]=$numero;
+                else
+                    foreach ($originalNumeros as $key => $toDel) {
+                        if ($toDel->getId() === $numero->getId()) {
+                            unset($originalNumeros[$key]);
+                        }
+                    }//fin foreach
+            }//fin foreach            
+           // Elimina la relación entre la etiqueta y la Tarea
+            if(!empty($originalNumeros))
+                foreach ($originalNumeros as $num){
+                    //Se elimina los numeros que ya no estan relacionados con la entidad
+                    $em->remove($num);
+                } //fin foreach              
+            if(!empty($numerosNuevos))
+                foreach($numerosNuevos as $numero)
+                {   
+                    $entity->addNumero($numero);
+                    //$numero->setAgenda($entity);
+                }
             $em->persist($entity);
             $em->flush();
 
@@ -176,6 +198,10 @@ class AgendaController extends Controller
                 throw $this->createNotFoundException('Unable to find Agenda entity.');
             }
 
+            //Eliminando los numeros asignados a este contacto
+           /* foreach($entity->getNumeros() as $numero)
+                $em->remove ($numero);
+            */
             $em->remove($entity);
             $em->flush();
         }

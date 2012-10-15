@@ -13,9 +13,9 @@ class AgendaType extends AbstractType
             ->add('nombres')
             ->add('apellidos')
             ->add('email')
-            ->add('usuario')
-            ->add('numeros','collection',array("allow_add"=>TRUE,
-                                                "type"=>new NumerosType(),
+            ->add('numeros','collection',array('allow_add'=>TRUE,
+                                               'allow_delete' => TRUE,
+                                                'type'=>new NumerosType(),
                                                 ))
         ;
     }

@@ -45,7 +45,7 @@ class Agenda
     /**
      * @var Usuario
      *
-     * @ORM\ManyToOne(targetEntity="Agenda\UsuariosBundle\Entity\Usuario" , cascade={"ALL"})
+     * @ORM\ManyToOne(targetEntity="Agenda\UsuariosBundle\Entity\Usuario" )
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id" )
      * })
@@ -54,7 +54,7 @@ class Agenda
 
     
    /**
-     * @ORM\OneToMany(targetEntity="Numeros", mappedBy="agenda",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Numeros", mappedBy="agenda", cascade={"persist", "remove"})
      */
     private $numeros;
 
@@ -159,12 +159,15 @@ class Agenda
         return $this->usuario;
     }
     
-    public function addNumeros(\Agenda\ContactosBundle\Entity\Numeros $numeros)
+    public function addNumero(\Agenda\ContactosBundle\Entity\Numeros $numero)
     {
-        $this->numeros[]=$numeros;
+        $numero->setAgenda($this);
+        $this->numeros[]=$numero;
     }
     public function getNumeros()
     {
         return $this->numeros;
     }
+    
+    
 }

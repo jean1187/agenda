@@ -10,7 +10,7 @@ class NumerosType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('numero')
+            ->add('numero',null,array("required"=>false))
             //->add('agenda')
         ;
     }

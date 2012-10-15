@@ -1,7 +1,28 @@
+<script type="text/javascript" src="{{ asset('bundles/contactos/js/jquery.js')  }}"></script>
 <h1>Agenda edit</h1>
 
 <form action="{{ path('contacto_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+    {#{ form_widget(edit_form) }#}
+      
+    	{{ form_errors(edit_form._token) }}
+{{ form_widget(edit_form._token) }}
+
+{{ form_row(edit_form.nombres)}}    
+{{ form_row(edit_form.apellidos)}}    
+{{ form_row(edit_form.email)}}   
+    <h3>Numeros</h3>  
+    {# almacena el prototipo en el atributo data-prototype #}
+    <ul class="numeros" id="numero-fields-list" data-prototype="{{ form_widget(edit_form.numeros.get('prototype')) | e }}">
+    {% for numeroField in edit_form.numeros %}
+        <li>
+            {{ form_errors(numeroField) }}
+            {{ form_widget(numeroField) }}
+        </li>
+    {% endfor %}
+    </ul>
+
+    <a href="#" id="add-another-numero">Add another numero</a>
+    
     <p>
         <button type="submit">Edit</button>
     </p>
@@ -20,3 +41,48 @@
         </form>
     </li>
 </ul>
+<script type="text/javascript">
+    // realiza un seguimiento de cuántos campos de correo electrónico se han pintado
+    var numeroCount = '{{ edit_form.numeros | length }}';
+    var collectionHolder = $('ul.numeros');
+    
+    
+    jQuery(document).ready(function() {
+            // Añade un enlace para borrar todas las etiquetas existentes
+    // en elementos li del formulario
+    collectionHolder.find('li div div').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+        jQuery('#add-another-numero').click(function() {
+            var numeroList = jQuery('#numero-fields-list');
+
+            // graba la plantilla prototipo
+            var newWidget = numeroList.attr('data-prototype');
+            // sustituye el "$$name$$" usado en el id y name del prototipo
+            // con un número que es único en tus correos
+            // termina con el atributo name viéndose como name="contact[numeros][2]"
+            newWidget = newWidget.replace(/\$\$name\$\$/g, numeroCount);
+            numeroCount++;
+
+            // crea un nuevo elemento lista y lo añade a nuestra lista
+            var newLi = jQuery('<li></li>').html(newWidget);
+            addTagFormDeleteLink(newLi.children("div").children("div"));
+            newLi.appendTo(jQuery('#numero-fields-list'));
+
+                return false;
+        });
+        
+        function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormA = $('<a href="#">delete this tag</a>');
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // evita crear el enlace con una "#" en la URL
+        e.preventDefault();
+
+        // quita el li de la etiqueta del formulario
+        $tagFormLi.parent().parent().remove();
+    });
+}
+    })//fin Document.REady
+</script>
